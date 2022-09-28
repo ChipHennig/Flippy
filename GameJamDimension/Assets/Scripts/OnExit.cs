@@ -9,13 +9,21 @@ public class OnExit : MonoBehaviour
 
     public string keyToPress;
 
+    bool inDoor = false;
+
+    void Update()
+    {
+        if (Input.GetKeyDown(keyToPress) && inDoor)
+        {
+            SceneManager.LoadScene(sceneToLoad);
+        }
+    }
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            if(Input.GetKeyDown(keyToPress)) {
-                SceneManager.LoadScene(sceneToLoad); 
-            }
+            inDoor = true;
         }
     }
 
@@ -23,11 +31,15 @@ public class OnExit : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (Input.GetKeyDown(keyToPress))
-            {
-                SceneManager.LoadScene(sceneToLoad);
-            }
+            inDoor = true;
         }
     }
 
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            inDoor = false;
+        }
+    }
 }
